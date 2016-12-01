@@ -5,4 +5,4 @@ tweets/migrations
 .gitignore
 
 tweets/__pycache__/
-
+.idea
