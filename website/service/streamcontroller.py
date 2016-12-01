@@ -1,6 +1,6 @@
 from tweepy import Stream
 
-from iscript.service.streaminformation import auth, openstreams
+from website.service.streaminformation import auth, openstreams
 from .streamer import Streamer
 
 

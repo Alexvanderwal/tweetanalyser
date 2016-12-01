@@ -55,7 +55,7 @@ ROOT_URLCONF = 'iscript.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'iscript/templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'website/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'iscript.wsgi.application'
+WSGI_APPLICATION = 'website.wsgi.application'
 
 
 # Database
@@ -122,8 +122,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "iscript/static"),
-    '/iscript/../iscript/static/general',
+    os.path.join(BASE_DIR, "website/static"),
+    '/website/..//static/general',
 ]
 
 # twitter keys
