@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+*.sqlite3
+*.md
+tweets/migrations
+.gitignore
+
+tweets/__pycache__/
+
