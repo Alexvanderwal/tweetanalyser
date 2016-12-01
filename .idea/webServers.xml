@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f502de11-8194-43b9-8abf-63d6df06f510" name="Sitelite7" url="http://sitellite7.semiaslab.nl">
+        <fileTransfer host="sitellite7.semiaslab.nl" port="21" password="dff9dfcfdfc7dfc3dfcbdfd9df9bdf9adf9adf8b" username="semias@semiaslab.nl">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

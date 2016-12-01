@@ -1,0 +1,103 @@
+body {
+
+    background-color: #22353e;
+    font-family: 'Raleway', sans-serif;
+    font-size: 48px;
+    color: #ba957a
+}
+
+
+#introText{
+    font-size: 48px;
+    font-weight: bold;
+
+}
+
+strong{
+    font-size: 17px;
+}
+#container{
+    margin: 0 auto;
+    width: 80%;
+}
+
+#pie-chart-container {
+    max-width: 400px;
+}
+
+.default-form {
+
+
+    margin: 50px auto;
+
+
+}
+.default-form h2{
+    background: #4D4D4D;
+    text-transform: uppercase;
+    font-family: 'Open Sans Condensed', sans-serif;
+    color: #797979;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 20px;
+    margin: -30px -30px 30px -30px;
+}
+.default-form input[type="text"],
+.default-form input[type="date"],
+.default-form input[type="datetime"],
+.default-form input[type="email"],
+.default-form input[type="number"],
+.default-form input[type="search"],
+.default-form input[type="time"],
+.default-form input[type="url"],
+.default-form input[type="password"],
+.default-form textarea,
+.default-form select
+{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    display: inline-block;
+    width: 25%;
+    padding: 0px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    color: #ba957a;
+    background: transparent;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    font: 16px Arial, Helvetica, sans-serif;
+    height: 45px;
+}
+.default-form textarea{
+    resize:none;
+    overflow: hidden;
+}
+.default-form input[type="button"],
+.default-form input[type="submit"]{
+    -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    background-color: #2CBBBB;
+    border: 1px solid #27A0A0;
+    display: inline-block;
+    cursor: pointer;
+    color: whitesmoke;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    height: 45px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.default-form input[type="button"]:hover,
+.default-form input[type="submit"]:hover {
+    background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+    background-color:#34CACA;
+}
+
+
+h5 {
+    display : inline-block;
+}

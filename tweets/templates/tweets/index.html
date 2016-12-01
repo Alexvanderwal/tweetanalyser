@@ -1,0 +1,17 @@
+{% extends "general/core.html" %}
+
+
+
+{% block content %}
+    <div id="introText"> Tweet Analyzer Applicatie ISCP herkansing</div>
+    <div class="default-form">
+            <input type="text" id="hashtag" name="hashtag" placeholder="Hashtag to search on" />
+            <input type="email" name="limit" placeholder="Search limit" />
+            <input type="button" id="button" value="Voer de zoekquery uit"/>
+    </div>
+     <h5 id="tweetAnalyzed"> </h5>
+    <div id="pie-chart-container">
+         <canvas id="pieChart" class="chart"></canvas>
+    </div>
+
+{% endblock content %}
