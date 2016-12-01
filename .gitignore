@@ -3,5 +3,6 @@
 *.md
 tweets/migrations
 .gitignore
-tweets/__pycache__/
+*.pyc
+settings.py
 .idea
