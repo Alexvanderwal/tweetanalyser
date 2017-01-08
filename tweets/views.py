@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from website.service.streamcontroller import StreamController
-from website.service.streaminformation import openstreams
+from tweets.service import StreamController
+from tweets.service import openstreams
 
 
 def index(request):

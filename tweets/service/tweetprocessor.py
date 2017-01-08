@@ -1,5 +1,10 @@
 import re
 
+import nltk
+import yaml
+
+
+
 emoticons_str = r"""
     (?:
         [:=;] # Eyes
@@ -44,7 +49,24 @@ def sanitize(tweet_text):
     return tweet_text
 
 def tokenize(tweet_text):
+    #only for testing
     return tokens_re.findall(sanitize(tweet_text))
 
 
+
+
+
+
+def pos_tag(sentence):
+    """
+    input format: list of lists of words
+        e.g.: [['this', 'is', 'a', 'sentence'], ['this', 'is', 'another', 'one']]
+    output format: list of lists of tagged tokens. Each tagged tokens has a
+    form, a lemma, and a list of tags
+        e.g: [[('this', 'this', ['DT']), ('is', 'be', ['VB']), ('a', 'a', ['DT']), ('sentence', 'sentence', ['NN'])],
+              [('this', 'this', ['DT']), ('is', 'be', ['VB']), ('another', 'another', ['DT']), ('one', 'one', ['CARD'])]]
+    """
+    # adapt format
+    pos = [(word, word, [postag]) for (word, postag) in nltk.pos_tag(sentence)]
+    return pos
 

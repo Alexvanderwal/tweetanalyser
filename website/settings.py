@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'iscript.urls'
+ROOT_URLCONF = 'website.urls'
 
 TEMPLATES = [
     {
@@ -122,14 +122,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "website/static"),
-    '/website/..//static/general',
+    os.path.join(BASE_DIR, "website/static")
 ]
 
 # twitter keys
 
-CONSUMER_KEY = 	''
-CONSUMER_SECRET = ''
+CONSUMER_KEY = 	'dWj6s9C8zzSukeXjb94smEAAh'
+CONSUMER_SECRET = 'Akrzib87hR71FP1EjZJmHth3UDr4CaSXPRJQ3gIOrZP78LhQBv'
 
-ACCESS_TOKEN = ''
-ACCESS_SECRET = ''
+ACCESS_TOKEN = '2911748620-5rDJyiaNONLIy1yD4c9PvvtBZgRh7qvJdz9KKwY'
+ACCESS_SECRET = 'ihb5ZxrZJ8uMLR30Iq4ooYP3WK97nuTgMRbwYV4uhEybS'

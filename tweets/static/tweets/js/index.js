@@ -40,11 +40,12 @@ $(function() {
     btn.addEventListener('click', function (event){
         if(!isStreaming) {
             hashtag = encodeURIComponent($("#hashtag").val());
+            $("#button").val("zet de stream uit");
             startStream(hashtag);
-            $('#alertbox').toggle();
         }
         else {
-            endStream()
+            endStream();
+            $("#button").val("Voer de zoekquery uit");
         }
     });
 

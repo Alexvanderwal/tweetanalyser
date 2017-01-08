@@ -4,7 +4,7 @@ from django.db import models
 class Tweet(models.Model):
     keyword = models.CharField(max_length=30)
     sentiment_score = models.DecimalField(max_digits=5,decimal_places=2)
-    actual_tweet = models.CharField(max_length=300)
+    tweet = models.CharField(max_length=300)
     date_time = models.DateTimeField()
 
 
@@ -20,18 +20,18 @@ class Sentiment(models.Model):
     minimum_sentiment = models.DecimalField(max_digits=5,decimal_places=2)
 
 
-class Tweets():
-    managed = False
-    tweet = ""
-    datetime = ""
-    sentiment = ""
-    keyword = ""
-
-    def __init__(self, tweet, datetime, keyword):
-        self.tweet = tweet
-        self.datetime = datetime
-        self.keyword = keyword
-        self.sentiment = 0
+# class Tweets():
+#     managed = False
+#     tweet = ""
+#     datetime = ""
+#     sentiment = ""
+#     keyword = ""
+#
+#     def __init__(self, tweet, datetime, keyword):
+#         self.tweet = tweet
+#         self.datetime = datetime
+#         self.keyword = keyword
+#         self.sentiment = 0
 
 
 

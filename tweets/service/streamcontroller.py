@@ -1,6 +1,6 @@
 from tweepy import Stream
 
-from website.service.streaminformation import auth, openstreams
+from tweets.service import auth, openstreams
 from .streamer import Streamer
 
 
@@ -17,12 +17,10 @@ class  StreamController():
 
     def run(self):
         self.stream = Streamer()
-        self.stream.registerKeyword(self.keyword)
+        self.stream.keyword = self.keyword
         self.twitter_stream = Stream(self.auth, self.stream )
-        self.twitter_stream.filter(track=['#{0}'.format(self.keyword)], async=True)
-
+        self.twitter_stream.filter(track=['#{0}'.format(self.keyword)], languages=["en"], async=True)
 
 
     def stop(self):
         self.twitter_stream.disconnect()
-        self.stream.isactive = False
