@@ -8,3 +8,4 @@ auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_SECRET)
 #Dictionairy which keeps track of all open streams, so we can make sure the program doesnt keep any "old" streams open
 openstreams = {}
 
+lastupdates = {}

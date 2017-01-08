@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^$', views.index, name='tweets'),
     #/tweets/stream/status
     url(r'^stream/(?P<uuid>.*)/(?P<hashtag>\w{0,50})$', views.start_stream, name='stream'),
-    url(r'^stop/stream/(?P<uuid>.*)', views.stop_stream, name='stop_stream')
+    url(r'^stop/stream/(?P<uuid>.*)$', views.stop_stream, name='stop_stream'),
+    url(r'^update/(?P<uuid>.*)$', views.update, name='update')
 ]

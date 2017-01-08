@@ -1,44 +1,43 @@
 import tweepy
 import json
 from tweepy.streaming import StreamListener
-from tweets.models import Tweet
+from tweets.models import Tweet, Hashtag, Sentiment
 import html
-from datetime import datetime, timedelta
-from email.utils import parsedate_tz
-from .tweetprocessor import tokenize, pos_tag
+from .tweetprocessor import TweetProcessor
 from .tweetanalyser import Analyser
 from queue import Queue
 from threading import Thread
-from multiprocessing import Pool
-from django.contrib.staticfiles.templatetags.staticfiles import static as _static
-import threading
+from django.utils import timezone
+
 
 class StreamerWorker(Thread):
     def __init__(self, queue):
         Thread.__init__(self)
         self.queue = queue
         self.analyser = Analyser()
+        self.tweet_processor = TweetProcessor()
 
     def run(self):
         while True:
             #get work from the queue and expand the tuple
-            data, keyword = self.queue.get()
-            tweet = self.construct_tweet(json.loads(html.unescape(data)), keyword)
-            tokens = pos_tag(tokenize(tweet.tweet))
-            tweet.sentiment_score = self.analyser.analyse(tokens)
-            print(tweet)
+            data, hashtag = self.queue.get()
+            self.construct_tweet(json.loads(html.unescape(data)), hashtag)
             self.queue.task_done()
 
     # Create a object out of the tweet data to streamline the data handeling process
-    def construct_tweet(self, data, keyword):
-        date = self.to_datetime(str(data['created_at']))
-        return Tweet(keyword=keyword, tweet=data['text'], date_time=date)
-
-    # ?Uitzoeken wat dit doet
-    def to_datetime(self, datestring):
-        time_tuple = parsedate_tz(datestring.strip())
-        dt = datetime(*time_tuple[:6])
-        return dt - timedelta(seconds=time_tuple[-1])
+    def construct_tweet(self, data, hashtag):
+        date = timezone.now()
+        #Try and catch incase the stream gets a tweet with a empty data['text'] so it doesn't exit the stream
+        try:
+            tweet = Tweet(hashtag=hashtag, tweet=data['text'], date_time=date)
+            processed_tweet = self.tweet_processor.process_tweet(tweet.tweet)
+            tweet.sentiment_score = self.analyser.analyse(processed_tweet)
+            tweet.sentiment_name = Sentiment.sentiments.filter(
+                minimum_sentiment__lte=tweet.sentiment_score).order_by(
+                'minimum_sentiment').last()
+            tweet.save()
+        except:
+            print("error")
 
 
 class Streamer(StreamListener):
@@ -52,12 +51,18 @@ class Streamer(StreamListener):
         worker.daemon = True
         worker.start()
 
-    # Function that gets called on arrival of a new tweetc
+    # Function that gets called on arrival of a new tweet
     def on_data(self, data):
 
-        self.queue.put((data, self.keyword))
+        self.queue.put((data, self.hashtag))
         self.queue.join()
         return True
 
-    def save_keyword(self, keyword):
-        self.keyword = keyword
+    #Create the hashtag model object so we can reference it in our tweet objects
+    def save_hashtag(self, hashtag):
+        try:
+            self.hashtag = Hashtag.hashtags.get(hashtag=hashtag)
+        except Hashtag.DoesNotExist:
+            self.hashtag = Hashtag(hashtag=hashtag)
+        self.hashtag.save()
+

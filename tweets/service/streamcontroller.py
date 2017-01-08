@@ -1,7 +1,8 @@
 from tweepy import Stream
 
-from tweets.service import auth, openstreams
+from tweets.service.streaminformation import auth, openstreams
 from .streamer import Streamer
+from tweets.models import Hashtag
 
 
 class  StreamController():
@@ -10,16 +11,15 @@ class  StreamController():
         #This way we dont have to create a new auth object for each controller
         self.auth = auth
         self.unique_user_id = unique_user_id
-        self.keyword = keyword
+        self.hashtag = keyword
         openstreams[self.unique_user_id] = self
-
 
 
     def run(self):
         self.stream = Streamer()
-        self.stream.keyword = self.keyword
-        self.twitter_stream = Stream(self.auth, self.stream )
-        self.twitter_stream.filter(track=['#{0}'.format(self.keyword)], languages=["en"], async=True)
+        self.stream.save_hashtag(self.hashtag)
+        self.twitter_stream = Stream(self.auth, self.stream)
+        self.twitter_stream.filter(track=['#{0}'.format(self.hashtag)], languages=["en"], async=True)
 
 
     def stop(self):

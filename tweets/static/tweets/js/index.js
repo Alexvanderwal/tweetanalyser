@@ -4,11 +4,14 @@
 $(function() {
     var sum = 0;
     var isStreaming = false;
+    var uniqueUserID = '';
+
+    //Here we are using the javascript to get the DOM object instead of a reference to the DOM object
     var btn = document.getElementById("button");
     var hashtag = document.getElementById("hashtag");
-    var uniqueUserID = '';
     //This will be the canvas we are feeding the chart into
     var ctx = document.getElementById("pieChart");
+
     var data = {
         labels: ["Positive", "Negative", "Neutral"],
         datasets: [{
@@ -59,12 +62,10 @@ $(function() {
     function startStream(hashtag){
         isStreaming = true;
         var StartStream = new XMLHttpRequest();
-        StartStream.addEventListener('load', function () {
-            isAnalyzing = true;
-        });
         uniqueUserID = createUUID();
         StartStream.open('GET', 'stream/' + uniqueUserID + '/' + hashtag );
         StartStream.send();
+        adjustScore();
     }
 
     function createUUID(){
@@ -77,7 +78,7 @@ $(function() {
             sum += pieChart.data.datasets[0].data[i];
              pieChart.data.datasets[0].data[i] = 15;
          }
-        document.getElementById("tweetAnalyzed").innerHTML = 'Total tweets analyzed: ' + sum;
+        $("#tweetAnalyzed").html('Total tweets analyzed: ' + sum);
     }
 
     window.onbeforeunload = function(){
@@ -86,5 +87,4 @@ $(function() {
             endStream();
         }
     }
-
 });
