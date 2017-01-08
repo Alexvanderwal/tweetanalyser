@@ -52,7 +52,7 @@ class Streamer(StreamListener):
         worker.daemon = True
         worker.start()
 
-    # Function that gets called on arrival of a new tweet
+    # Function that gets called on arrival of a new tweetc
     def on_data(self, data):
 
         self.queue.put((data, self.keyword))
