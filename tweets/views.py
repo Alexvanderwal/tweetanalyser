@@ -5,7 +5,11 @@ from tweets.service.streamcontroller import StreamController
 from tweets.service.streaminformation import openstreams, lastupdates
 from django.utils import timezone
 from django.core import serializers
-
+from rest_framework import generics
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import TweetSerializer
 
 def index(request):
     template = loader.get_template('tweets/index.html')
@@ -25,11 +29,14 @@ def stop_stream(request, uuid):
     active_stream.stop()
     return HttpResponse(template.render(request))
 
-def update(request, uuid):
-    print(openstreams)
-    users_stream = openstreams.get(uuid)
-    hashtag = users_stream.stream.hashtag
-    print(hashtag)
+@api_view(['GET'])
+def update(request, uuid, format=None):
+    hashtag = ''
+    try:
+        users_stream = openstreams.get(uuid)
+        hashtag = users_stream.stream.hashtag
+    except:
+        print('error')
     try:
         time = lastupdates.get(uuid)
         tweets = Tweet.tweets.filter(date_time__gt=time, hashtag=hashtag)
@@ -37,5 +44,6 @@ def update(request, uuid):
     except:
         tweets = Tweet.tweets.filter(hashtag=hashtag)
         lastupdates[uuid] = timezone.now()
-    tweets = serializers.serialize('json', tweets)
-    return HttpResponse(tweets, content_type="application/json")
+    serializer = TweetSerializer(tweets, many=True)
+    return Response(serializer.data)
+
