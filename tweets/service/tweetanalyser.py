@@ -27,7 +27,6 @@ class AnalyserWorker(Thread):
     def run(self):
         while True:
             #get work from the queue and expand the tuple
-
             self.queue.task_done()
 class Analyser(object):
 

@@ -2,7 +2,7 @@ body {
 
     background-color: #22353e;
     font-family: 'Raleway', sans-serif;
-    font-size: 48px;
+    /*font-size: 48px;*/
     color: #ba957a
 }
 
@@ -13,25 +13,41 @@ body {
 
 }
 
+
 strong{
     font-size: 17px;
 }
+
+#wrapper{
+    width: 100%;
+     overflow: hidden;
+}
 #container{
-    margin: 0 auto;
-    width: 55%;
+    padding-left:60px;
+    width: 70%;
+    float:left;
+}
+
+#cards{
+    width: 30%;
+    padding-top:170px;
+    overflow: hidden;
 }
 
 #pie-chart-container {
     max-width: 400px;
+    margin-left: 200px;
 }
 
 .default-form {
-
-
-    margin: 50px auto;
+    margin-left: 200px;
+    margin-top: 50px;
 
 
 }
+
+
+
 .default-form h2{
     background: #4D4D4D;
     text-transform: uppercase;

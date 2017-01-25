@@ -4,7 +4,9 @@ from .models import Hashtag, Sentiment, Tweet
 class HashtagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hashtag
-        fields = ('id','hashtag')
+        tweet_amount = serializers.SerializerMethodField('tweet_amount')
+        avg_sentiment = serializers.SerializerMethodField('avg_sentiment')
+        fields = ('id','hashtag', 'last_activated', 'tweet_amount', 'avg_sentiment')
 
 
 class SentimentSerializer(serializers.ModelSerializer):

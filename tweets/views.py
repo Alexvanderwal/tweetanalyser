@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from tweets.models import Tweet
+from tweets.models import Tweet, Hashtag
 from tweets.service.streamcontroller import StreamController
 from tweets.service.streaminformation import openstreams, lastupdates
 from django.utils import timezone
@@ -9,7 +9,8 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import TweetSerializer
+from .serializers import TweetSerializer, HashtagSerializer
+
 
 def index(request):
     template = loader.get_template('tweets/index.html')
@@ -28,6 +29,13 @@ def stop_stream(request, uuid):
     active_stream = openstreams.get(uuid)
     active_stream.stop()
     return HttpResponse(template.render(request))
+
+
+@api_view(['GET'])
+def old_queries(request):
+    hashtags = Hashtag.hashtags.all()[:3]
+    serializer = HashtagSerializer(hashtags, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def update(request, uuid, format=None):

@@ -62,7 +62,10 @@ class Streamer(StreamListener):
     def save_hashtag(self, hashtag):
         try:
             self.hashtag = Hashtag.hashtags.get(hashtag=hashtag)
+            self.hashtag.last_activated = timezone.now()
         except Hashtag.DoesNotExist:
-            self.hashtag = Hashtag(hashtag=hashtag)
+            self.hashtag = Hashtag(hashtag=hashtag, last_activated=timezone.now())
+        print(self.hashtag)
+        print(self.hashtag.avg_sentiment())
         self.hashtag.save()
 

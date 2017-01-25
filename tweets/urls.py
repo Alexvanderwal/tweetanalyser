@@ -7,7 +7,8 @@ urlpatterns = [
     #/tweets/stream/status
     url(r'^stream/(?P<uuid>.*)/(?P<hashtag>\w{0,50})$', views.start_stream, name='stream'),
     url(r'^stop/stream/(?P<uuid>.*)$', views.stop_stream, name='stop_stream'),
-    url(r'^update/(?P<uuid>.*)/$', views.update, name='update')
+    url(r'^update/(?P<uuid>.*)$', views.update, name='update'),
+    url(r'^oldqueries/$', views.old_queries, name='oldqueries')
 ]
 
 #Allows us to format the data in whatever type we want

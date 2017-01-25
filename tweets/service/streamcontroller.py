@@ -6,12 +6,12 @@ from tweets.models import Hashtag
 
 
 class  StreamController():
-    def __init__(self, unique_user_id, keyword):
+    def __init__(self, unique_user_id, hashtag):
         #Assign the pre instanciated auth object to instanciate the controller
         #This way we dont have to create a new auth object for each controller
         self.auth = auth
         self.unique_user_id = unique_user_id
-        self.hashtag = keyword
+        self.hashtag = hashtag
         openstreams[self.unique_user_id] = self
 
 
