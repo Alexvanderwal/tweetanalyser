@@ -1,9 +1,6 @@
 import re
 
 import nltk
-import yaml
-
-
 
 emoticons_str = r"""
     (?:
@@ -21,6 +18,7 @@ regex_str = [
     r'(?:\S)'  # anything else
 ]
 
+
 class TweetProcessor(object):
     def __init__(self):
         self.tokens_re = re.compile(r'(' + '|'.join(regex_str) + ')', re.VERBOSE)
@@ -29,12 +27,14 @@ class TweetProcessor(object):
     def process_tweet(self, tweet_text):
         return self.pos_tag(self.tokens_re.findall(self.sanitize(tweet_text)))
 
-
     def sanitize(self, tweet_text):
-        # Method to clean the given tweet from unwanted charachters, this is so we don't end up with unwanted
-        # charachters which could confuse our sentiment analysis
-
-        #Make the text lowercase so its easier to handle
+        """
+         Method to clean the given tweet from unwanted charachters, this is so we don't end up with unwanted
+         charachters which could confuse our sentiment analysis
+        :param tweet_text: raw tweet
+        :return: sanitzed tweet
+        """
+        # Make the text lowercase so its easier to handle
         tweet_text = tweet_text.lower()
         # change urls to URL
         tweet_text = re.sub('((www\.[^\s]+)|(https?://[^\s]+)|(http://[^\s]+))', 'URL', tweet_text)
@@ -53,17 +53,16 @@ class TweetProcessor(object):
 
         return tweet_text
 
-
     def pos_tag(self, sentence):
         """
         input format: list of lists of words
             e.g.: [['this', 'is', 'a', 'sentence'], ['this', 'is', 'another', 'one']]
         output format: list of lists of tagged tokens. Each tagged tokens has a
         form, a lemma, and a list of tags
-            e.g: [[('this', 'this', ['DT']), ('is', 'be', ['VB']), ('a', 'a', ['DT']), ('sentence', 'sentence', ['NN'])],
-                  [('this', 'this', ['DT']), ('is', 'be', ['VB']), ('another', 'another', ['DT']), ('one', 'one', ['CARD'])]]
+            e.g: [[('this', 'this', ['DT']), ('is', 'be', ['VB']), ('a', 'a', ['DT']),
+             ('sentence', 'sentence', ['NN'])],
+                  [('this', 'this', ['DT']), ('is', 'be', ['VB']), ('another', 'another',
+                  ['DT']), ('one', 'one', ['CARD'])]]
         """
-        # adapt format
         pos = [(word, word, [postag]) for (word, postag) in nltk.pos_tag(sentence)]
         return pos
-

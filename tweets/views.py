@@ -1,14 +1,12 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.template import loader
+from django.utils import timezone
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from tweets.models import Tweet, Hashtag
 from tweets.service.streamcontroller import StreamController
 from tweets.service.streaminformation import openstreams, lastupdates
-from django.utils import timezone
-from django.core import serializers
-from rest_framework import generics
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from .serializers import TweetSerializer, HashtagSerializer
 
 
@@ -33,12 +31,24 @@ def stop_stream(request, uuid):
 
 @api_view(['GET'])
 def old_queries(request):
-    hashtags = Hashtag.hashtags.all()[:3]
+    """
+    Sends 4 old searched on hashtags to the front end
+    :param request:
+    :return:
+    """
+    hashtags = Hashtag.hashtags.all()[:4]
     serializer = HashtagSerializer(hashtags, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def update(request, uuid, format=None):
+def update(request, uuid):
+    """
+    Sends all new analysed records in the database to the Frontend
+    :param request:
+    :param uuid: Unique User Id identifying which stream belongs to the requesting user
+    :return:
+    """
     hashtag = ''
     try:
         users_stream = openstreams.get(uuid)

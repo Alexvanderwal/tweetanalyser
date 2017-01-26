@@ -2,10 +2,12 @@ from tweepy import Stream
 
 from tweets.service.streaminformation import auth, openstreams
 from .streamer import Streamer
-from tweets.models import Hashtag
 
 
 class  StreamController():
+    """
+    Object that acts as controller for a unique stream
+    """
     def __init__(self, unique_user_id, hashtag):
         #Assign the pre instanciated auth object to instanciate the controller
         #This way we dont have to create a new auth object for each controller

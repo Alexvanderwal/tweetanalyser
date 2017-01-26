@@ -27,7 +27,7 @@ $(document).ready(function() {
 
     function makeOldStreamIndex(){
         var responseData = JSON.parse(this.responseText);
-        var html ='';
+        html = '<h5>Oude streams hervatten</h5>';
         for(var i = 0; i < responseData.length; i++){
             var hashtag = responseData[i].hashtag;
             html += '<div class="row">';

@@ -1,33 +1,50 @@
-import tweepy
-import json
-from tweepy.streaming import StreamListener
-from tweets.models import Tweet, Hashtag, Sentiment
 import html
-from .tweetprocessor import TweetProcessor
-from .tweetanalyser import Analyser
+import json
 from queue import Queue
 from threading import Thread
+
 from django.utils import timezone
+from tweepy.streaming import StreamListener
+
+from tweets.models import Tweet, Hashtag, Sentiment
+from .tweetanalyser import Analyser
+from .tweetprocessor import TweetProcessor
 
 
 class StreamerWorker(Thread):
+    """
+   Create the base for our worker Threads that will be responsible for
+   delegating the data fetched by the stream to the different components used in the
+   analysis process.
+    """
+
     def __init__(self, queue):
         Thread.__init__(self)
+        # Queue our worker will fetch his tasks from
         self.queue = queue
         self.analyser = Analyser()
         self.tweet_processor = TweetProcessor()
 
     def run(self):
+        """
+        Pick the first task from the queue heap and start the stripping process
+        :return:
+        """
         while True:
-            #get work from the queue and expand the tuple
             data, hashtag = self.queue.get()
             self.construct_tweet(json.loads(html.unescape(data)), hashtag)
             self.queue.task_done()
 
-    # Create a object out of the tweet data to streamline the data handeling process
     def construct_tweet(self, data, hashtag):
+        """
+        Use the information of data we actually are gonna use in the analysis
+        and create a Tweet object from this
+        :param data: The raw tweet as received from the stream
+        :param hashtag: A hashtag object relevant to the search query
+        :return:
+        """
         date = timezone.now()
-        #Try and catch incase the stream gets a tweet with a empty data['text'] so it doesn't exit the stream
+        # Try & catch to prevent crashing when a tweet is not sent correctly
         try:
             tweet = Tweet(hashtag=hashtag, tweet=data['text'], date_time=date)
             processed_tweet = self.tweet_processor.process_tweet(tweet.tweet)
@@ -36,36 +53,48 @@ class StreamerWorker(Thread):
                 minimum_sentiment__lte=tweet.sentiment_score).order_by(
                 'minimum_sentiment').last()
             tweet.save()
+            # Broad exception here because we dont really care what kind of error it is
         except:
             print("error")
 
 
 class Streamer(StreamListener):
+    """
+    Uses the tweepy StreamListener to fetch all new teets which contain the
+    hashtag object relevant to the search query
+    """
+
     # Create a queue to communicate with the worker threads
     queue = Queue()
-    workerAmount = 8
-    # Create 8 worker threads
-    for x in range(workerAmount):
+    for x in range(8):
         worker = StreamerWorker(queue)
         # Setting daemon to True will let the main thread exit even though the workers are blocking
         worker.daemon = True
         worker.start()
 
-    # Function that gets called on arrival of a new tweet
     def on_data(self, data):
+        """
+        Function that gets called by StreamListener everytime a new tweet comes in
+        :param data: the new tweet in question
+        :return: signal if there were problems with the tweet
+        """
+        try:
+            self.queue.put((data, self.hashtag))
+            self.queue.join()
+            return True
+        except:
+            return False
 
-        self.queue.put((data, self.hashtag))
-        self.queue.join()
-        return True
-
-    #Create the hashtag model object so we can reference it in our tweet objects
     def save_hashtag(self, hashtag):
+        """
+        Create a hashtag object with the hashtag(text) the user queried with
+        so we can reference this throughout the streaming process
+        :param hashtag: Hashtag string
+        :return:
+        """
         try:
             self.hashtag = Hashtag.hashtags.get(hashtag=hashtag)
             self.hashtag.last_activated = timezone.now()
         except Hashtag.DoesNotExist:
             self.hashtag = Hashtag(hashtag=hashtag, last_activated=timezone.now())
-        print(self.hashtag)
-        print(self.hashtag.avg_sentiment())
         self.hashtag.save()
-
