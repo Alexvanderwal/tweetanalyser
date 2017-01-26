@@ -15,9 +15,6 @@ lockfile==0.12.2
 Markdown==2.6.7
 mccabe==0.5.2
 nltk==3.2.1
-node==0.9.16
-npm==0.1.1
-numpy==1.11.2
 oauthlib==2.0.1
 odict==1.5.2
 optional-django==0.1.0
@@ -34,8 +31,3 @@ selenium==3.0.2
 six==1.10.0
 tweepy==3.5.0
 wrapt==1.10.8
-zope.component==4.3.0
-zope.deprecation==4.2.0
-zope.event==4.2.0
-zope.interface==4.3.2
-zope.lifecycleevent==4.1.0
