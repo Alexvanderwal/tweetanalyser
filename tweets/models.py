@@ -11,6 +11,15 @@ class Hashtag(models.Model):
     last_activated = models.DateTimeField()
     hashtags = models.Manager()
 
+    def pos_tweet_amount(self):
+        return self.tweet_set.filter(sentiment_score__gte=0.50).count()
+
+    def neg_tweet_amount(self):
+        return self.tweet_set.filter(sentiment_score__lte=-0.50).count()
+
+    def neut_tweet_amount(self):
+        return self.tweet_set.filter(sentiment_score__exact=0.00).count()
+
     def tweet_amount(self):
         return self.tweet_set.count()
 

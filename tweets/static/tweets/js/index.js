@@ -129,16 +129,9 @@ $(document).ready(function() {
     }
     function updateData(){
         var responseData = JSON.parse(this.responseText);
-        for(var i = 0; i < responseData.length; i++){
-             $("#tweetAnalyzed").html('Total tweets analyzed: ' + responseData[i].sentiment_name.name);
-            if (responseData[i].sentiment_name.name == "positive"){
-                posScore++;
-            } else if(responseData[i].sentiment_name.name == "negative"){
-                negScore++;
-            } else{
-                neutScore++;
-            }
-        }
+        posScore = responseData.pos_tweet_amount;
+        negScore = responseData.neg_tweet_amount;
+        neutScore = responseData.neut_tweet_amount;
         adjustScore();
 
 
